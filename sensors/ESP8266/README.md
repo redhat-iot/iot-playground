@@ -34,6 +34,7 @@ To use the mqtt_dht.imo sketch, you will need to install some extra libraries.
 In the Arduino Editor go to `Sketch -> Include library -> Manage Libraries` and search for :
  - DHT : Install the 'DHT Sensor Library' by adafruit
  - MQTT : Install the 'Adafruit MQTT Library'
+ - Adafruit Unified Sensor: A generic sensor library
 
  Then, you can upload the ino sketch provided in this repo.
  Please adapt the variables to match your name and your wi-fi credentials !
