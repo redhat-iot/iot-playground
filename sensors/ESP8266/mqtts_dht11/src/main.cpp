@@ -31,18 +31,18 @@
 
 /************************* broker Setup *********************************/
 
-#define MQTT_SERVER     "mqtt.awesome.iot-playground.org"
-#define MQTT_PORT       443
+#define MQTT_SERVER     "iot.eclipse.org"
+#define MQTT_PORT       8883            // 8883 for MQTTS
 #define MQTT_USERNAME    "admin"
 #define MQTT_PASSWORD    "admin"
 
 // cert SHA1 fingerprint
-const char* fingerprint = "29:21:C6:E9:B1:E6:48:D0:10:FC:FA:5F:E0:40:60:7D:D7:7B:66:76"; //iot.eclispse.org
+const char* fingerprint = "34:CE:0F:D7:E0:71:89:F4:16:04:17:87:EA:1E:E8:45:2A:14:9C:25"; //iot.eclispse.org
 
 /************ Global State (you don't need to change this!) ******************/
 
 // WiFiFlientSecure for SSL/TLS support
-WiFiClientSecure client;
+ WiFiClientSecure client;
 //WiFiClient client;
 
 // Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
@@ -70,11 +70,9 @@ void verifyFingerprint();
 void setup() {
   Serial.begin(115200);
   delay(10);
-  
-  // initialise DHT sensor
-  dht.begin();  
 
-  Serial.println(F("eclipse IO MQTTS (SSL/TLS) Example"));
+  // initialise DHT sensor
+  dht.begin();
 
   // Connect to WiFi access point.
   Serial.println(); Serial.println();
@@ -101,15 +99,15 @@ void setup() {
 }
 
 void loop() {
-    // wait a couple seconds 
+    // wait a couple seconds
   delay(6000);
-  
+
   // Ensure the connection to the MQTT server is alive (this will make the first
   // connection and automatically reconnect when disconnected).  See the MQTT_connect
   // function definition further below.
   MQTT_connect();
 
-  
+
   // .......... DHT Measures
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -137,9 +135,9 @@ void loop() {
   } else {
     Serial.println(F("OK!"));
   }
-  
+
   far.publish( f );
-  
+
    Serial.println("Sending humidity");
   if (! hum.publish( h )) {
     Serial.println(F("Failed"));
@@ -162,12 +160,12 @@ void verifyFingerprint() {
     while(1);
   }
 
-  //if (client.verify(fingerprint, host)) {
-  //  Serial.println("Connection secure.");
-  //} else {
-  //  Serial.println("Connection insecure! Halting execution.");
-  //  while(1);
-  //}
+  if (client.verify(fingerprint, host)) {
+    Serial.println("Connection secure.");
+  } else {
+    Serial.println("Connection insecure! Halting execution.");
+    while(1);
+  }
 
 }
 
