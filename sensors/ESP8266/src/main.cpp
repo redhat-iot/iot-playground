@@ -26,15 +26,15 @@
 
 /************************* WiFi Access Point *********************************/
 
-#define WLAN_SSID       "........... YOUR SSID HERE ......."
-#define WLAN_PASS       "...........YOUR PASSWORD HERE ...."
+#define WLAN_SSID       ""
+#define WLAN_PASS       ""
 
 /************************* broker Setup *********************************/
 
-#define MQTT_SERVER     "iot.eclipse.org"
-#define MQTT_PORT       8883           // 8883 for MQTTS
-#define MQTT_USERNAME    "...... YOUR MQTT USERNAME HERE ....."
-#define MQTT_PASSWORD    ".......YOUR MQTT PASSWORD HERE ....."
+#define MQTT_SERVER     ""
+#define MQTT_PORT       1883           // 8883 for MQTTS
+#define MQTT_USERNAME    "admin"
+#define MQTT_PASSWORD    "admin"
 
 // cert SHA1 fingerprint
 const char* fingerprint = "29:21:C6:E9:B1:E6:48:D0:10:FC:FA:5F:E0:40:60:7D:D7:7B:66:76"; //iot.eclispse.org
@@ -42,7 +42,8 @@ const char* fingerprint = "29:21:C6:E9:B1:E6:48:D0:10:FC:FA:5F:E0:40:60:7D:D7:7B
 /************ Global State (you don't need to change this!) ******************/
 
 // WiFiFlientSecure for SSL/TLS support
-WiFiClientSecure client;
+// WiFiClientSecure client;
+WiFiClient client;
 
 // Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
 Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME); // MQTT_PASSWORD);
@@ -101,7 +102,7 @@ void setup() {
 
 void loop() {
     // wait a couple seconds 
-  delay(2000);
+  delay(6000);
   
   // Ensure the connection to the MQTT server is alive (this will make the first
   // connection and automatically reconnect when disconnected).  See the MQTT_connect
@@ -161,12 +162,12 @@ void verifyFingerprint() {
     while(1);
   }
 
-  if (client.verify(fingerprint, host)) {
-    Serial.println("Connection secure.");
-  } else {
-    Serial.println("Connection insecure! Halting execution.");
-    while(1);
-  }
+  //if (client.verify(fingerprint, host)) {
+  //  Serial.println("Connection secure.");
+  //} else {
+  //  Serial.println("Connection insecure! Halting execution.");
+  //  while(1);
+  //}
 
 }
 
