@@ -31,8 +31,8 @@
 
 /************************* broker Setup *********************************/
 
-#define MQTT_SERVER     ""
-#define MQTT_PORT       1883           // 8883 for MQTTS
+#define MQTT_SERVER     "mqtt.awesome.iot-playground.org"
+#define MQTT_PORT       443
 #define MQTT_USERNAME    "admin"
 #define MQTT_PASSWORD    "admin"
 
@@ -42,8 +42,8 @@ const char* fingerprint = "29:21:C6:E9:B1:E6:48:D0:10:FC:FA:5F:E0:40:60:7D:D7:7B
 /************ Global State (you don't need to change this!) ******************/
 
 // WiFiFlientSecure for SSL/TLS support
-// WiFiClientSecure client;
-WiFiClient client;
+WiFiClientSecure client;
+//WiFiClient client;
 
 // Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
 Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME); // MQTT_PASSWORD);
