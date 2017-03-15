@@ -7,9 +7,6 @@ Once you have the playbooks, setting up the cluster is simple:
 
     ansible-playbook -u <user> -k -i ansible-hosts.cfg openshift-ansible/playbooks/byo/config.yml
 
-Since the playbook is setup to use htpasswd and has no users installed by default, the playbook will
-fail to install the example templates, but those are not needed.
-
 Once this playbook has run, you need to login to the host and add users using htpasswd. To do that,
 you need to install the httpd-tools package
 
