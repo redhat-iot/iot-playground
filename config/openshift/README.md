@@ -1,7 +1,7 @@
 The ansible-hosts.cfg configures the OpenShift installation of the iot playground. 
 
-To deploy it, you need to install [ansible](https://www.ansible.com/) and clone the
-[playbooks](https://github.com/openshift/openshift-ansible).
+Before deploying OpenShift, ensure the [prerequisites](https://docs.openshift.org/latest/install_config/install/prerequisites.html#install-config-install-prerequisites)
+are met. To deploy it, you need to install [ansible](https://www.ansible.com/) and clone the [playbooks](https://github.com/openshift/openshift-ansible).
 
 Once you have the playbooks, setting up the cluster is simple:
 
