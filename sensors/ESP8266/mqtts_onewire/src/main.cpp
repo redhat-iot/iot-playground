@@ -55,22 +55,11 @@ WiFiClientSecure client;
 // Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
 Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME); // MQTT_PASSWORD);
 
-// Initialize DHT sensor.
-//DHT dht(DHTPIN, DHTTYPE);
-
 /****************************** MQTT Topics ***************************************/
 
 // Setup a feed called 'temperature" for publishing data.
-Adafruit_MQTT_Publish cel = Adafruit_MQTT_Publish(&mqtt, "temperature");
+Adafruit_MQTT_Publish cel = Adafruit_MQTT_Publish(&mqtt, "temperature/trondheim");
 
-//Adafruit_MQTT_Publish far = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/temperature/farenheit");
-
-//Adafruit_MQTT_Publish hum = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/humidity");
-
-/*************************** Sketch Code ************************************/
-
-// Bug workaround for Arduino 1.6.6, it seems to need a function declaration
-// for some reason (only affects ESP8266, likely an arduino-builder bug).
 void MQTT_connect();
 void verifyFingerprint();
 
@@ -78,11 +67,9 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
-  // initialise DHT sensor
-  // dht.begin();
   sensors.begin();
   sensors.setResolution(12);
-  Serial.println(F("eclipse IO MQTTS (SSL/TLS) Example"));
+  Serial.println(F("IoT Playground MQTTS (SSL/TLS) Example"));
 
   // Connect to WiFi access point.
   Serial.println(); Serial.println();
@@ -107,7 +94,6 @@ void setup() {
 
   // check the fingerprint of io.adafruit.com's SSL cert
   verifyFingerprint();
-
 }
 
 void loop() {
@@ -124,11 +110,6 @@ void loop() {
   MQTT_connect();
 
 
-  // .......... DHT Measures
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  //float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
   Serial.print("Requesting temperatures");
   sensors.requestTemperatures();
   Serial.println("DONE");
@@ -137,7 +118,7 @@ void loop() {
   
   // Check if any reads failed and exit early (to try again).
   if (isnan(temp)) {
-     Serial.println("Failed to read from DHT sensor!");
+     Serial.println("Failed to read from sensor!");
      return;
     }
 
@@ -167,8 +148,7 @@ void verifyFingerprint() {
     if (client.verify(fingerprint, host)) {
       Serial.println("Connection secure.");
     } else {
-      Serial.println("Connection insecure! Halting execution.");
-      while(1);
+      Serial.println("Connection insecure!.");
     }
 }
 
