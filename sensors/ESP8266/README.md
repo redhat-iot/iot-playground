@@ -25,7 +25,8 @@ python get.py
 
 Then, you can restart the Arduino IDE and select the Wemos Board in `Tools -> Board`
 
-*Tip*: The nice board handed to the fellow messaging Red Hatters are the Wemos D1 mini *v1* model. So in the Board menu you should select *Wemos D1 (Retired)*
+*Tip*: The nice board handed to the fellow messaging Red Hatters are the Wemos D1 mini model. So in the Board menu you should select *Wemos R2 & D1* \\
+It is the V1 model , so the *Retired* profile should be use, but for some reason, it doesn't work with the DHT11 sensor. If you have a DHT22 it is fine.
 
 
 ### Install the libraries
