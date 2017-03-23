@@ -1,17 +1,27 @@
 {
     "apiVersion": "v3",
     "kind": "AddressList",
-    "addresses": {
-        "temperature": {
-            "store_and_forward": true,
-            "multicast": true,
-            "flavor": "vanilla-topic"
+    "items": [
+      {
+        "metadata": {
+          "name": "temperature"
         },
-        "sensor1-metrics": {
+        "spec": {
             "store_and_forward": true,
             "multicast": true,
             "flavor": "vanilla-topic"
         }
-    }
+      },
+      {
+        "metadata": {
+          "name": "sensor1-metrics"
+        },
+        "spec": {
+            "store_and_forward": true,
+            "multicast": true,
+            "flavor": "vanilla-topic"
+        }
+      }
+    ]
 }
 
