@@ -6,6 +6,11 @@
             "store_and_forward": true,
             "multicast": true,
             "flavor": "vanilla-topic"
+        },
+        "sensor1-metrics": {
+            "store_and_forward": true,
+            "multicast": true,
+            "flavor": "vanilla-topic"
         }
     }
 }
