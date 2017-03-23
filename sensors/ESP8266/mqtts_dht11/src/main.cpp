@@ -24,6 +24,8 @@
 #define DHTPIN D4
 #define DHTTYPE DHT11
 
+#define USE_TLS
+
 /************************* WiFi Access Point *********************************/
 
 #define WLAN_SSID       ""
@@ -32,7 +34,11 @@
 /************************* broker Setup *********************************/
 
 #define MQTT_SERVER     "iot.eclipse.org"
+#ifdef USE_TLS
 #define MQTT_PORT       8883            // 8883 for MQTTS
+#else
+#define MQTT_PORT       1883            // 1883 for MQTT
+#endif
 #define MQTT_USERNAME    "admin"
 #define MQTT_PASSWORD    "admin"
 
@@ -42,8 +48,11 @@ const char* fingerprint = "34:CE:0F:D7:E0:71:89:F4:16:04:17:87:EA:1E:E8:45:2A:14
 /************ Global State (you don't need to change this!) ******************/
 
 // WiFiFlientSecure for SSL/TLS support
- WiFiClientSecure client;
-//WiFiClient client;
+#ifdef USE_TLS
+WiFiClientSecure client;
+#else
+WiFiClient client;
+#endif
 
 // Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
 Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME); // MQTT_PASSWORD);
@@ -95,7 +104,6 @@ void setup() {
 
   // check the fingerprint of io.adafruit.com's SSL cert
   verifyFingerprint();
-
 }
 
 void loop() {
@@ -160,13 +168,14 @@ void verifyFingerprint() {
     while(1);
   }
 
+#ifdef USE_TLS
   if (client.verify(fingerprint, host)) {
     Serial.println("Connection secure.");
   } else {
     Serial.println("Connection insecure! Halting execution.");
     while(1);
   }
-
+#endif
 }
 
 // Function to connect and reconnect as necessary to the MQTT server.
