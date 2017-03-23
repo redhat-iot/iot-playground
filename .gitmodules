@@ -1,3 +1,4 @@
 [submodule "config/openshift/openshift-ansible"]
 	path = config/openshift/openshift-ansible
 	url = https://github.com/openshift/openshift-ansible
+	branch = release-1.4
