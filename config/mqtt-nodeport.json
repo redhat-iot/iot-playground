@@ -1,0 +1,22 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "mqtt-nontls",
+        "labels": {
+            "app": "enmasse"
+        }
+    },
+    "spec": {
+        "ports": [
+            {
+                "port": 1883,
+                "nodePort": 32354
+            }
+        ],
+        "selector": {
+            "name": "mqtt-gateway"
+        },
+        "type": "NodePort"
+    }
+}

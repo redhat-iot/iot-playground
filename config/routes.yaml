@@ -40,12 +40,12 @@ items:
     name: restapi
   spec:
     host: api.awesome.iot-playground.org
-    path: /v3/address
+    path: /v3
     port:
-      targetPort: restapi
+      targetPort: http
     to:
       kind: Service
-      name: admin
+      name: address-controller
       weight: 100
 kind: List
 metadata: {}
