@@ -33,14 +33,16 @@
 
 /************************* broker Setup *********************************/
 
-#define MQTT_SERVER     "iot.eclipse.org"
+#define MQTT_SERVER     "mqtt.awesome.iot-playground.org"
 #ifdef USE_TLS
-#define MQTT_PORT       8883            // 8883 for MQTTS
+#define MQTT_PORT       443
 #else
-#define MQTT_PORT       1883            // 1883 for MQTT
+#define MQTT_PORT       32354
 #endif
 #define MQTT_USERNAME    "admin"
 #define MQTT_PASSWORD    "admin"
+
+#define LOCATION "" // Set this to an appropriate name for your sensors location
 
 // cert SHA1 fingerprint
 const char* fingerprint = "34:CE:0F:D7:E0:71:89:F4:16:04:17:87:EA:1E:E8:45:2A:14:9C:25"; //iot.eclispse.org
@@ -60,14 +62,15 @@ Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME); // MQ
 // Initialize DHT sensor.
 DHT dht(DHTPIN, DHTTYPE);
 
+
 /****************************** MQTT Topics ***************************************/
 
 // Setup a feed called 'MQTT_USERNAME/temperature/{celcius, farenheit}" for publishing data.
-Adafruit_MQTT_Publish cel = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/temperature/celcius");
+Adafruit_MQTT_Publish cel = Adafruit_MQTT_Publish(&mqtt, "temperature/" LOCATION "/celcius");
 
-Adafruit_MQTT_Publish far = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/temperature/farenheit");
+Adafruit_MQTT_Publish far = Adafruit_MQTT_Publish(&mqtt, "temperature/" LOCATION "/farenheit");
 
-Adafruit_MQTT_Publish hum = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/humidity");
+Adafruit_MQTT_Publish hum = Adafruit_MQTT_Publish(&mqtt, "temperature/" LOCATION "/humidity");
 
 /*************************** Sketch Code ************************************/
 
