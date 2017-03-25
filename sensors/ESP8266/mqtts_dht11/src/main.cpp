@@ -71,12 +71,16 @@ Adafruit_MQTT_Publish hum = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/humidit
 
 /*************************** Sketch Code ************************************/
 
+// Bug workaround since mqtt.connected() returns true even a CONNECT was never sent
+bool connected;
+
 // Bug workaround for Arduino 1.6.6, it seems to need a function declaration
 // for some reason (only affects ESP8266, likely an arduino-builder bug).
 void MQTT_connect();
 void verifyFingerprint();
 
 void setup() {
+  connected = false;
   Serial.begin(115200);
   delay(10);
 
@@ -184,7 +188,7 @@ void MQTT_connect() {
   int8_t ret;
 
   // Stop if already connected.
-  if (mqtt.connected()) {
+  if (connected && mqtt.connected()) {
     return;
   }
 
@@ -203,5 +207,6 @@ void MQTT_connect() {
        }
   }
 
+  connected = true;
   Serial.println("MQTT Connected!");
 }
