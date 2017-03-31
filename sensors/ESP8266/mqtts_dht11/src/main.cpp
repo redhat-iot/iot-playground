@@ -42,7 +42,10 @@
 #define MQTT_USERNAME    "admin"
 #define MQTT_PASSWORD    "admin"
 
-#define LOCATION "" // Set this to an appropriate name for your sensors location
+#define MQTT_TOPIC_PREFIX "sensors"
+#define SENSOR_ID  "sensor1"  // set this to your sensor ID
+
+#define MQTT_CLIENT_ID SENSOR_ID
 
 // cert SHA1 fingerprint
 const char* fingerprint = "34:CE:0F:D7:E0:71:89:F4:16:04:17:87:EA:1E:E8:45:2A:14:9C:25"; //iot.eclispse.org
@@ -57,7 +60,7 @@ WiFiClient client;
 #endif
 
 // Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
-Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME); // MQTT_PASSWORD);
+Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_CLIENT_ID, MQTT_USERNAME, MQTT_PASSWORD);
 
 // Initialize DHT sensor.
 DHT dht(DHTPIN, DHTTYPE);
@@ -66,11 +69,11 @@ DHT dht(DHTPIN, DHTTYPE);
 /****************************** MQTT Topics ***************************************/
 
 // Setup a feed called 'MQTT_USERNAME/temperature/{celcius, farenheit}" for publishing data.
-Adafruit_MQTT_Publish cel = Adafruit_MQTT_Publish(&mqtt, "temperature/" LOCATION "/celcius");
+Adafruit_MQTT_Publish cel = Adafruit_MQTT_Publish(&mqtt, MQTT_TOPIC_PREFIX "/" SENSOR_ID "/data/celsius");
 
-Adafruit_MQTT_Publish far = Adafruit_MQTT_Publish(&mqtt, "temperature/" LOCATION "/farenheit");
+Adafruit_MQTT_Publish far = Adafruit_MQTT_Publish(&mqtt, MQTT_TOPIC_PREFIX "/" SENSOR_ID "/data/fahrenheit");
 
-Adafruit_MQTT_Publish hum = Adafruit_MQTT_Publish(&mqtt, "temperature/" LOCATION "/humidity");
+Adafruit_MQTT_Publish hum = Adafruit_MQTT_Publish(&mqtt, MQTT_TOPIC_PREFIX "/" SENSOR_ID "/data/humidity");
 
 /*************************** Sketch Code ************************************/
 
