@@ -17,9 +17,9 @@
   MIT license, all text above must be included in any redistribution
  ****************************************************/
 #include <ESP8266WiFi.h>
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
-#include "DHT.h"
+#include <Adafruit_MQTT.h>
+#include <Adafruit_MQTT_Client.h>
+#include <DHT.h>
 
 #define DHTPIN D4
 #define DHTTYPE DHT11
