@@ -30,3 +30,90 @@ objects:
       to:
         kind: ImageStreamTag
         name: elasticsearch:latest
+
+# DC, Service & Route
+
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: elasticsearch
+  spec:
+    replicas: 1
+    selector:
+      app: elasticsearch
+      deploymentconfig: elasticsearch
+    strategy:
+      type: Recreate
+    triggers:
+      - type: ConfigChange 
+      - type: ImageChange 
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - elasticsearch
+          from:
+            kind: ImageStreamTag
+            name: elasticsearch:latest
+    template:
+      metadata:
+        labels:
+          app: elasticsearch
+          deploymentconfig: elasticsearch
+      spec:
+        containers:
+        - image: elasticsearch
+          imagePullPolicy: Always
+          name: elasticsearch
+          ports:
+          - containerPort: 9200 
+            name: http
+          - containerPort: 9300 
+            name: transport
+          readinessProbe:
+            failureThreshold: 5
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 9300
+            timeoutSeconds: 5
+          volumeMounts:
+          - mountPath: /usr/share/elasticsearch/data/nodes
+            name: data-volume
+        volumes:
+        - name: data-volume
+          emptyDir: {}
+
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: elasticsearch
+    labels:
+      app: elasticsearch
+  spec:
+    ports:
+    - name: http
+      protocol: TCP
+      port: 9200
+      targetPort: 9200
+    - name: transport
+      protocol: TCP
+      port: 9300
+      targetPort: 9300
+    selector:
+      app: elasticsearch
+      deploymentconfig: elasticsearch
+
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: elasticsearch
+    labels:
+      app: elasticsearch
+  spec:
+    to:
+      kind: Service
+      name: elasticsearch
+    port:
+      targetPort: http
